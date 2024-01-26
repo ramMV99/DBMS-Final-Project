@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        #dashboard-container {
+            background-color: grey;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        a {
+            color: blue;
+            text-decoration: none;
+        }
+
+        form {
+            display: inline-block;
+        }
+
+        button {
+            background-color: blue;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        span {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <div id="dashboard-container">
+
+        <h2>Users to Follow:</h2>
+        <ul>
+            {% for user in users %}
+                <li>
+                    <div>
+                        {{ user[0] }} ({{ user[1] }})
+                    </div>
+                    <div>
+                        {% if not follow_status[user] %}
+                            <form method="post" action="{{ url_for('follow') }}">
+                                <input type="hidden" name="follower_username" value="{{ username }}">
+                                <input type="hidden" name="follower_email" value="{{ email }}">
+                                <input type="hidden" name="followed_username" value="{{ user[0] }}">
+                                <input type="hidden" name="followed_email" value="{{ user[1] }}">
+                                <button type="submit">Follow</button>
+                            </form>
+                        {% else %}
+                            <span>Following</span>
+                        {% endif %}
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
